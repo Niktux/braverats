@@ -134,6 +134,9 @@ final class Game
             ->resolve();
         
         $this->clearBonus();
+        $this->discardCard($this->player1, $card1);
+        $this->discardCard($this->player2, $card2);
+        
         $winnerId = $this->findWinner($result);
         
         if($winnerId !== null)
@@ -226,5 +229,22 @@ final class Game
         
         $this->player1->setBonuses($bonus1, $bonus2);
         $this->player2->setBonuses($bonus2, $bonus1);
+    }
+    
+    private function discardCard(IdentifiedPlayer $player, $card)
+    {
+        $id = $player->getId();
+        $index = array_search($card, $this->cards[$id]);
+        
+        if($index === false)
+        {
+            throw new \RuntimeException(sprintf(
+                'Invalid played card [%d] for player %s',
+                $card,
+                $player->getName()
+            ));
+        }
+        
+        unset($this->cards[$id][$index]);
     }
 }
