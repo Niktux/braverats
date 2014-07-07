@@ -5,7 +5,7 @@ namespace Niktux\Braverats\Players;
 use Niktux\Braverats\Player;
 use Niktux\Braverats\Utils\Cards;
 
-class Stronger implements Player
+class StrongerFirst implements Player
 {
     use Cards;
     
