@@ -1,0 +1,17 @@
+{
+	"name" : "niktux/braverats",
+	"authors" : [{
+			"name" : "Niktux",
+			"email" : "nico.ln@gmail.com"
+		}
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Niktux\\Braverats\\" : "src"
+		}
+	},
+	"license" : "MIT",
+	"require-dev" : {
+		"phpunit/phpunit" : "~4.1"
+	}
+}
