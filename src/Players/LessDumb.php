@@ -28,25 +28,21 @@ class LessDumb implements Player
     	   return $this->randomPlay();
 	   }
 	   
-	   $r = new Resolver();
-	   $r->setBonus1($this->bonus)
-	     ->setBonus2($this->opponentBonus)
-	     ->setCard2($opponentCard);
-	   
 	   $max = Resolver::WIN * -1;
+	   $maxCard = -1;
 	   
 	   foreach($this->cards as $card)
 	   {
-	       $resolv = clone $r;
-	       $result = $r->setCard1($card)->resolve();
+	       $result = $this->resolve($card, $opponentCard);
 
-	       if($result >= $max)
+	       if($result > $max)
 	       {
-	           $max = $card;
+	           $max = $result;
+	           $maxCard = $card;
 	       }
 	   }
 
-	   return $max;
+	   return $maxCard;
 	}
 	
 	private function randomPlay()
