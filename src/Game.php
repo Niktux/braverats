@@ -43,6 +43,7 @@ final class Game
     
     public function resolve()
     {
+        $espionPlayed = 0;
         $round = 0;
         $this->waitingDrawRounds = 0;
         
@@ -57,7 +58,7 @@ final class Game
             $this->checkCardIsAllowed($this->player1, $card1);
             $this->checkCardIsAllowed($this->player2, $card2);
             
-            $this->updateAfterRound($card1, $card2);
+            $espionPlayed = $this->updateAfterRound($card1, $card2);
         }
     }
     
@@ -127,11 +128,16 @@ final class Game
         
         $this->printScore();
         
+        $espionPlayed = 0;
         if($r->cancelPower() === false)
         {
             $this->applyGeneral($this->player1, $card1);    
             $this->applyGeneral($this->player2, $card2);    
+            
+            $espionPlayed = $this->applyEspion($card1, $card2);
         }
+        
+        return $espionPlayed;
     }
     
     private function findWinner($result)
@@ -156,6 +162,24 @@ final class Game
         {
             $this->bonus[$p->getId()] = 2;   
         }
+    }
+    
+    private function applyEspion($card1, $card2)
+    {
+        if($card1 !== $card2)
+        {
+            if($card1 === Card::ESPION_2)
+            {
+                return 1;
+            }
+            
+            if($card2 === Card::ESPION_2)
+            {
+                return -1;
+            }
+        }
+        
+        return 0;
     }
     
     private function printScore()
