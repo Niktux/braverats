@@ -16,9 +16,9 @@ class IdentifiedPlayer implements Player
         $this->player = $player;
     }
     
-	public function play()
+	public function play($opponentCard = null)
 	{
-	    return $this->player->play();
+	    return $this->player->play($opponentCard);
 	}
 
 	public function getName()
@@ -34,5 +34,15 @@ class IdentifiedPlayer implements Player
 	public function getId()
 	{
 	    return $this->id;
+	}
+	
+	public function opponentHasPlayed($card)
+	{
+	    return $this->player->opponentHasPlayed($card);
+	}
+	
+	public function setBonuses($myBonus, $opponentBonus)
+	{
+	    return $this->player->setBonuses($myBonus, $opponentBonus);
 	}
 }

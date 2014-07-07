@@ -52,8 +52,28 @@ final class Game
             $round++;
             $this->log("= Round $round ==================================");
             
-            $card1 = $this->play($this->player1);
-            $card2 = $this->play($this->player2);
+            $this->warnPlayersAboutBonuses();
+            
+            // Player 2 must play first
+            if($espionPlayed === 1)
+            {
+                $this->log($this->player2->getName() . ' has to play first');
+                $card2 = $this->play($this->player2, null);
+                $card1 = $this->play($this->player1, $card2);
+            }
+            // player 1 must play firt
+            elseif($espionPlayed === -1)
+            {
+                $this->log($this->player1->getName() . ' has to play first');
+                $card1 = $this->play($this->player1, null);
+                $card2 = $this->play($this->player2, $card1);
+            }
+            // normal case
+            else
+            {
+                $card1 = $this->play($this->player1, null);
+                $card2 = $this->play($this->player2, null);
+            }
             
             $this->checkCardIsAllowed($this->player1, $card1);
             $this->checkCardIsAllowed($this->player2, $card2);
@@ -80,9 +100,9 @@ final class Game
         echo "$message\n";
     }
     
-    private function play(Player $p)
+    private function play(Player $p, $opponentCard = null)
     {
-        $card = $p->play();
+        $card = $p->play($opponentCard);
         
         $this->log(sprintf(
             "Player %s plays card #%d",
@@ -197,5 +217,14 @@ final class Game
     {
         $this->bonus[$this->player1->getId()] = 0;
         $this->bonus[$this->player2->getId()] = 0;
+    }
+    
+    private function warnPlayersAboutBonuses()
+    {
+        $bonus1 = $this->bonus[$this->player1->getId()];
+        $bonus2 = $this->bonus[$this->player2->getId()];
+        
+        $this->player1->setBonuses($bonus1, $bonus2);
+        $this->player2->setBonuses($bonus2, $bonus1);
     }
 }

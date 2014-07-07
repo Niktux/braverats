@@ -4,27 +4,25 @@ namespace Niktux\Braverats\Players;
 
 use Niktux\Braverats\Player;
 use Niktux\Braverats\Utils\Cards;
+use Niktux\Braverats\Utils\Bonus;
 
 class StrongerFirst implements Player
 {
     use Cards;
+    use Bonus;
     
-    private
-        $name;
-    
-    public function __construct($name)
+    public function __construct()
     {
-        $this->name = $name;
         $this->initCards();
     }
     
-	protected function choseCard()
+	protected function choseCard($opponentCard = null)
 	{
 	    return end($this->cards);
 	}
 
 	public function getName()
 	{
-	    return $this->name;
+	    return 'StrongerFirst';
 	}
 }

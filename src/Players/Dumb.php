@@ -7,16 +7,14 @@ use Niktux\Braverats\Player;
 class Dumb implements Player
 {
     private
-        $cards,
-        $name;
+        $cards;
     
-    public function __construct($name)
+    public function __construct()
     {
         $this->cards = [0, 1, 2, 3, 4, 5, 6, 7];
-        $this->name = $name;
     }
     
-	public function play()
+	public function play($opponentCard = null)
 	{
 	    shuffle($this->cards);
 	    
@@ -25,6 +23,14 @@ class Dumb implements Player
 
 	public function getName()
 	{
-	    return $this->name;
+	    return 'Randumb';
+	}
+	
+	public function opponentHasPlayed($card)
+	{
+	}
+	
+	public function setBonuses($myBonus, $opponentBonus)
+	{
 	}
 }
