@@ -45,4 +45,9 @@ class IdentifiedPlayer implements Player
 	{
 	    return $this->player->setBonuses($myBonus, $opponentBonus);
 	}
+	
+	public function __clone()
+	{
+	   $this->player = clone $this->player;    
+	}
 }

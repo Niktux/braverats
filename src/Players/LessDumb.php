@@ -14,10 +14,12 @@ class LessDumb implements Player
     use Bonus;
     
     private
+        $name,
         $cards;
     
-    public function __construct()
+    public function __construct($name = null)
     {
+        $this->name = $name;
         $this->cards = [0, 1, 2, 3, 4, 5, 6, 7];
     }
     
@@ -60,6 +62,6 @@ class LessDumb implements Player
 
 	public function getName()
 	{
-	    return 'LessDumb';
+	    return $this->name ?: 'LessDumb';
 	}
 }

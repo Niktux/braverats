@@ -11,10 +11,13 @@ final class Game
         $points,
         $players,
         $bonus,
+        $logEnabled,
         $waitingDrawRounds;
     
     public function __construct(Player $p1, Player $p2)
     {
+        $this->logEnabled = true;
+        
         $this->player1 = $p1 = new IdentifiedPlayer($p1);
         $this->player2 = $p2 = new IdentifiedPlayer($p2);
         
@@ -39,6 +42,21 @@ final class Game
         	$p1->getId() => 0,
         	$p2->getId() => 0,
         );
+    }
+    
+    public function getScore()
+    {
+        return array(
+            $this->points[$this->player1->getId()],	
+            $this->points[$this->player2->getId()],	
+        );
+    }
+    
+    public function disableLog()
+    {
+        $this->logEnabled = false;
+        
+        return $this;
     }
     
     public function resolve()
@@ -97,7 +115,10 @@ final class Game
     
     private function log($message)
     {
-        echo "$message\n";
+        if($this->logEnabled === true)
+        {
+            echo "$message\n";
+        }
     }
     
     private function play(Player $p, $opponentCard = null)
@@ -207,13 +228,13 @@ final class Game
     
     private function printScore()
     {
-        echo sprintf(
-        	"%s %d - %d %s\n",
+        $this->log(sprintf(
+        	"%s %d - %d %s",
             $this->player1->getName(),
             $this->points[$this->player1->getId()],                
             $this->points[$this->player2->getId()],                
             $this->player2->getName()
-        );
+        ));
     }
     
     private function clearBonus()
